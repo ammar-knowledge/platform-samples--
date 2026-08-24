@@ -40,6 +40,8 @@ Running scripts will be automatically terminated after 5 seconds (blocking the p
 
 When designing your scripts, also consider scenarios where many developers push at once (e.g. before lunch time). Parallel pushes will result in parallel runs of hook scripts. All parallel script runs have to compete for the same resources: CPU, memory, files, network, external systems. If any of the parallel runs needed more than 5 seconds to complete or triggered a programming error ([race condition](https://en.wikipedia.org/wiki/Race_condition#Software)), this may result in an unhappy developer whose push just got rejected for the wrong reasons.
 
+Network access from pre-receive hooks is also restricted on newer appliances. In GitHub Enterprise Server 3.18 and later, network calls made from pre-receive hooks are logged and can be blocked through the appliance configuration setting `core.pre-receive-hook-networking-enabled`. Beginning with GitHub Enterprise Server 3.22, network calls from pre-receive hooks are disabled by default and must be explicitly enabled through that same setting. Scripts that depend on external systems should therefore be reviewed with your site administrator before upgrading.
+
 **Any acceptable approach that can enforce your policy in an asynchronous fashion (see following paragraphs), will have less risk on the performance of your appliance and the effectiveness of your developer workflow.**
 
 ### Alternatives to pre-receive-hooks
